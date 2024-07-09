@@ -94,7 +94,7 @@ export const Notcoin = (pr) => {
 
       const newNumber = {
         id: `${Date.now()}`,
-        value: clickValue * 5,
+        value: clickValue * 1,
         x: touch.clientX + randomNumberBetweenTenAndMinusTen,
         y: touch.clientY
       }
