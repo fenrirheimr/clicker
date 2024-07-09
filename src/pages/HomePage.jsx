@@ -12,11 +12,13 @@ const id = tg?.initDataUnsafe?.user?.id
 import axios from 'axios'
 
 const HomePage = () => {
-    const [coin, setCoin] = useState(0);
-    const [energy, setEnergy] = useState(10);
-
+    // const [coin, setCoin] = useState(0);
+    
     const [appState, setAppState] = useState();
     const [balnce, setBalnce] = useState();
+    const [limit, setLimit] = useState();
+    const [energy, setEnergy] = useState();
+
 
 
     useEffect(() => {
@@ -26,16 +28,29 @@ const HomePage = () => {
           const user = resp.data;
           setAppState(user);
           setBalnce(user.balance_personal)
+          setLimit(user.limit)
+          setEnergy(user.limit)
 
-        //   alert('>>>', tg)
+          console.log('user', energy)
 
         });
     }, [setAppState]);
+    useEffect(() => {
+        if (energy < 1000) {
+            const timer = setInterval(() => {
+                setEnergy((prev) => prev + 1);
+            }, 1000);
+            
+            // очистка интервала
+            return () => clearInterval(timer);
+        }
+    });
+
+    
 
     const onHandleChangeEnergyAndCoin = () => {
         if (energy !== 0) {
-            // console.log('>>>')
-            setCoin((prev) => prev + 1);
+            // setCoin((prev) => prev + 1);
             setEnergy((prev) => prev - 1);
 
             axios.post('https://telegrams.su/api/api/update-personal-balance', {
@@ -49,6 +64,8 @@ const HomePage = () => {
             });
         }
     };
+
+    console.log('this?', energy)
 
     return (
         <WrapperPage style={'overflow-x:hidden'}>
@@ -70,7 +87,7 @@ const HomePage = () => {
                 {/* {tg?.initDataUnsafe?.user?.id} */}
                 <p className="flex text-white text-2xl items-center pb-5 mt-3">
                     <span className="font-medium">{energy}</span>
-                    <span className="font-bold">/{defaultEnergy}</span>
+                    <span className="font-bold">/{limit}</span>
                     <Icons.LightningIcon />
                 </p>
             </div>
