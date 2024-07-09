@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { Notcoin } from '../notcoin'
 import {SubPage} from "./index.js";
 const defaultEnergy = 2000;
-// const tg = window.Telegram.WebApp
-// tg.expand()
+const tg = window.Telegram.WebApp
+tg.expand()
 //Создал переменную так как не знаю это дата с бэка будет приходит или статическая будет
-const id = '286133104'
-// const id = tg?.initDataUnsafe?.user?.id
+// const id = '286133104'
+const id = tg?.initDataUnsafe?.user?.id
 
 import axios from 'axios'
 
