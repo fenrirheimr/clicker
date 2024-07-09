@@ -27,7 +27,7 @@ const HomePage = () => {
           setAppState(user);
           setBalnce(user.balance_personal)
 
-          alert('>>>', tg)
+        //   alert('>>>', tg)
 
         });
     }, [setAppState]);
