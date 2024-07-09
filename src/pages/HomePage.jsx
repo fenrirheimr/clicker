@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Notcoin } from '../notcoin'
 import {SubPage} from "./index.js";
 const defaultEnergy = 2000;
-// const tg = window.Telegram.WebApp
+const tg = window.Telegram.WebApp
 // tg.expand()
 //Создал переменную так как не знаю это дата с бэка будет приходит или статическая будет
 const id = '286133104'
@@ -26,6 +26,8 @@ const HomePage = () => {
           const user = resp.data;
           setAppState(user);
           setBalnce(user.balance_personal)
+
+          alert('>>>', tg)
 
         });
     }, [setAppState]);
