@@ -1,6 +1,47 @@
+
+import axios from 'axios'
+import { useState } from "react";
 import { Icons, Title } from "../components";
 
+
 const SubPage = ({isShow, click}) => {
+
+    const [subscribed, setSubscribe] = useState(JSON.parse(localStorage.getItem('subscribed')));
+    
+    const tg = window.Telegram.WebApp
+    // const id = '286133104'
+    const id = tg?.initDataUnsafe?.user?.id
+
+    const onHandleChekSubscription = () => {
+        axios.post('https://telegrams.su/api/api/check_subscription', null, { params: {
+            "user_id": id,
+            "telegram_channel_id": '-1002161356301',
+          }})
+        .then((resp) => {
+            localStorage.setItem('subscribed', resp.data.subscribed);
+            setSubscribe(resp.data.subscribed)
+            if (resp.data.subscribed) {
+                axios.post('https://telegrams.su/api/api/update-personal-balance', {
+                    "user_id": id,
+                    "amount": 5000,
+                    "daily": true,
+                    "limit": 0
+                });
+            }
+            click(false)
+        });
+    };
+
+    const onHandleClose  = () => {
+        click(false)
+    }
+
+    // console.log('subscribed', subscribed)
+
+    const onHandleSubscribe = () => {
+        window.location.href = 'https://t.me/test_clicker'
+    }
+
     return (
         <div
             style={{
@@ -15,11 +56,20 @@ const SubPage = ({isShow, click}) => {
                 <Icons.TelegramIcon size={250}/>
             </div>
             <Title fontSize="3xl">Sub to us on Telegram</Title>
-            <button className="bg-[#50BAD8] rounded-3xl btn py-3 px-10 text-center text-lg mt-4">Subscribe</button>
+            {!subscribed ? (
+                <button className="bg-[#50BAD8] rounded-3xl btn py-3 px-10 text-center text-lg mt-4" onClick={() => onHandleSubscribe()}>Subscribe</button>
+            ) : null}
+            
             <span className="mt-5 flex items-center gap-2 text-lg">
-                    +5 000 <Icons.CircleMiniIcon/>
-                </span>
-            <button className="bg-[#194754]  rounded-3xl  py-3 px-10 text-center mt-4" onClick={() => {click(false)}}>Check it</button>
+                +5 000 <Icons.CircleMiniIcon/>
+            </span>
+
+            {!subscribed ? (
+                <button className="bg-[#194754]  rounded-3xl  py-3 px-10 text-center mt-4" onClick={() => onHandleChekSubscription()}>Check it</button>
+            ) : (
+                <button className="bg-[#194754]  rounded-3xl  py-3 px-10 text-center mt-4" onClick={() => onHandleClose()}>Close</button>
+            )}
+        
         </div>
     );
 };

@@ -1,6 +1,45 @@
+import axios from 'axios'
+import { useState } from "react";
 import { Icons, Title } from "../components";
 
 const DailyTaskSubPage = ({isShow, click}) => {
+
+    // localStorage.removeItem("daily");
+
+    const [daily, setDaily] = useState(JSON.parse(localStorage.getItem('daily')));
+    
+    const tg = window.Telegram.WebApp
+    // const id = '286133104'
+    const id = tg?.initDataUnsafe?.user?.id
+    
+    const onHandleDailyGet = () => {
+        console.log('onHandleDailyGet')
+        axios.post('https://telegrams.su/api/api/update-personal-balance', {
+            "user_id": id,
+            "amount": 5000,
+            "daily": true,
+            "limit": 0
+          })
+        .then((resp) => {
+
+            axios.get(`https://telegrams.su/api/api/user-data?user_id=${id}`).then((resp) => {
+
+                localStorage.setItem('daily', resp.data.daily);
+                setDaily(resp.data.daily)
+                console.log('user-data', resp)
+            });
+
+            click(false)
+            // return appState
+        });
+    };
+
+    console.log('daily', daily)
+
+    const onHandleClose  = () => {
+        click(false)
+    }
+
     return (
         <div
             style={{
@@ -19,7 +58,12 @@ const DailyTaskSubPage = ({isShow, click}) => {
             <span className="mt-7 mb-3 flex items-center gap-2 text-lg">
                     +5 000 <Icons.CircleMiniIcon/>
                 </span>
-            <button className="bg-[#194754]  rounded-3xl  py-3 px-10 text-center mt-4" onClick={() => {click(false)}}>Check it</button>
+
+            {!daily ? (
+                <button className="bg-[#194754]  rounded-3xl  py-3 px-10 text-center mt-4" onClick={() => onHandleDailyGet()}>Get it</button>
+            ) : (
+                <button className="bg-[#194754]  rounded-3xl  py-3 px-10 text-center mt-4" onClick={() => onHandleClose()}>Close</button>
+            )}
         </div>
     );
 };

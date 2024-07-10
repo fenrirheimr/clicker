@@ -58,6 +58,8 @@ export const friendList = [
     { id: 3, name: "Nursat", price: 2250 },
 ];
 
+const completedDaily = JSON.parse(localStorage.getItem('daily'))
+
 export const dailyTaskItems = [
     {
         id: 1,
@@ -65,9 +67,11 @@ export const dailyTaskItems = [
         desc: "Today you will receive",
         price: 5000,
         icon: <Icons.CalendarIcon />,
-        completed: true,
+        completed: completedDaily || false,
     },
 ];
+
+const completedSubscribe = JSON.parse(localStorage.getItem('subscribed'))
 
 export const listTaskItems = [
     {
@@ -76,7 +80,7 @@ export const listTaskItems = [
         desc: "Today you will receive",
         price: 5000,
         icon: <Icons.TelegramIcon />,
-        completed: true,
+        completed: completedSubscribe || false,
     },
     {
         id: 2,
@@ -87,6 +91,8 @@ export const listTaskItems = [
         completed: false,
     },
 ];
+
+console.log('listTaskItems >>>>>>>>>>>>>>>>>>>>.', completedDaily)
 
 export const airdropListTaskItems = [
     {
