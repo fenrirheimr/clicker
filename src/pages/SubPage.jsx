@@ -7,7 +7,7 @@ const SubPage = ({isShow, click}) => {
                 position: "fixed",
                 zIndex: 100,
                 transition: "0.8s",
-                top: isShow === true ? "40vh" : "100vh"
+                top: isShow === true ? "30vh" : "100vh"
             }}
 
             className="flex items-center flex-col  w-[100vw] h-full mt-3 bg-[#0B1B28]  rounded-[22px] pb-3  border-t-8 border-solid  border-[#24acce] px-5  gap-1 text-white">

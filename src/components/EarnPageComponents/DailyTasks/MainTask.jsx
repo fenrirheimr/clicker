@@ -1,8 +1,9 @@
 import { Icons } from "../..";
 
-const MainTask = ({ data }) => {
+const MainTask = ({ data, click }) => {
+    console.log('MainTask', data)
     return (
-        <div className=" w-full mt-3 bg-[#0B1B28]  rounded-[22px] py-3  border-t-8 border-solid  border-[#24acce] px-3  flex items-center justify-between gap-1 text-white">
+        <div onClick={() => click(true)} className=" w-full mt-3 bg-[#0B1B28]  rounded-[22px] py-3  border-t-8 border-solid  border-[#24acce] px-3  flex items-center justify-between gap-1 text-white">
             <div className="flex items-center">
                 <div className="min-w-14">{data.icon}</div>
                 <div>
